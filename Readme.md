@@ -1,8 +1,10 @@
 <Html>
     <h1>Local Social code Guide</h1>
-    <br>
+    <li>We are using multi layer architecture for this project </li> 
+    <li>Main layers are Controller , Services , Repositories</li>
+<br>
     <h3 style="color:pink;">Controller</h3>
-    <li>Create any controller in controller package and take reference of Auth Controller</li>
+    <li>To add any controller take reference of Auth Controller</li>
     <li>Request body and response body signature should be added in DTOS package </li>
     <li>A controller can be private or public , public meaning it can be accessed without token</li>
     <li>A controller should have handling of request and response headers/body , do not add any logic in controller</li>
