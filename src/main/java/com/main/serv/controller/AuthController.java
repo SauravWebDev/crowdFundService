@@ -27,9 +27,8 @@ public class AuthController {
         SignInResponse signInRes = new SignInResponse();
 
         try {
-            String token = authService.login(loginDto);
-            signInRes.setAccessToken(token);
-            return ResponseEntity.ok(signInRes);
+            SignInResponse res = authService.login(loginDto);
+            return ResponseEntity.ok(res);
         }catch (ApiException e) {
             signInRes.setErrorMsg(e.getMessage());
             return new ResponseEntity<>(signInRes, e.getStatus());

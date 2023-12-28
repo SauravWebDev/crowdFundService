@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.main.serv.dtos.LoginDto;
 import com.main.serv.dtos.SignupDto;
+import com.main.serv.dtos.response.SignInResponse;
 import com.main.serv.entity.RoleUserMappingKey;
 import com.main.serv.entity.Roles;
 import com.main.serv.entity.User;
@@ -43,11 +44,12 @@ public class AuthServiceImpl implements AuthService {
         this.roleRepository = roleRepository;
     }
     @Override
-    public String login(LoginDto loginDto) {
+    public SignInResponse login(LoginDto loginDto) {
         if(!userRepository.existsByEmail(loginDto.getEmailId())){
             throw new ApiException(HttpStatus.BAD_REQUEST, "Email Id does not exists!.");
         }
         Optional<User> user = userRepository.findByEmail(loginDto.getEmailId());
+
 
         System.out.println("paasss "+ user.get().getPassword());
         if(passwordEncoder.matches(loginDto.getPassword(), user.get().getPassword())) {
@@ -55,8 +57,13 @@ public class AuthServiceImpl implements AuthService {
                     user.get().getUserId(), loginDto.getPassword()));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            return jwtTokenProvider.generateToken(authentication);
+            boolean isProfile = user.get().getUserProfile() != null;
+            String token = jwtTokenProvider.generateToken(authentication);
+            SignInResponse res = new SignInResponse();
+            res.setErrorMsg(null);
+            res.setProfile(isProfile);
+            res.setAccessToken(token);
+            return res;
         } else {
             throw new ApiException(HttpStatus.BAD_REQUEST, "Password does not match.");
         }
