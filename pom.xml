@@ -8,7 +8,7 @@
 		<version>3.2.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>localsocial.main</groupId>
+	<groupId>crowdFundService.main</groupId>
 	<artifactId>serv</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>serv</name>
