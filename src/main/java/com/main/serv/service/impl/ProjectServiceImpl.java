@@ -32,7 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
         if(projectRepository.existsByTitle(project.getTitle())) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "Title already taken");
         }
-        Project projectEntity = getProject(project);
+        Project projectEntity = getProjectEntity(project);
         projectRepository.save(projectEntity);
         int projectId = projectRepository.findByTitle(project.getTitle()).get().getId();
         ProjectAddResponse res = new ProjectAddResponse();
@@ -57,7 +57,7 @@ public class ProjectServiceImpl implements ProjectService {
         return projectListResponse;
     }
 
-    private static Project getProject(ProjectAddDto project) {
+    private static Project getProjectEntity(ProjectAddDto project) {
         Project projectEntity = new Project();
         projectEntity.setTitle(project.getTitle());
         projectEntity.setOwner(project.getOwner());
@@ -65,9 +65,11 @@ public class ProjectServiceImpl implements ProjectService {
         projectEntity.setStatus("ACTIVE");
         projectEntity.setAmountGoal(project.getAmountGoal());
         projectEntity.setAmountRaised(0);
-        Timestamp stamp = new Timestamp(project.getDonationEndDate() * 1000);
+        Timestamp stamp = new Timestamp(project.getDonationEndDate());
         Date date = new Date(stamp.getTime());
         projectEntity.setDonationEndDate(date);
+        projectEntity.setCreatedAt(new Date());
+        projectEntity.setUpdatedAt(new Date());
         return projectEntity;
     }
 
@@ -87,9 +89,11 @@ public class ProjectServiceImpl implements ProjectService {
             singleProject.setDescription(project.get().getDescription());
             singleProject.setTitle(project.get().getTitle());
             singleProject.setOwner(project.get().getOwner());
+            singleProject.setAmountGoal(project.get().getAmountGoal());
+            singleProject.setDonationEndDate(project.get().getDonationEndDate().getTime());
             singleProject.setAmountRaised(goalAmount);
             singleProject.setDonationCount(noOfDonors);
-            singleProject.setCreatedAt(project.get().getCreatedAt().getSeconds() * 1000);
+            singleProject.setCreatedAt(project.get().getCreatedAt().getTime());
             singleProject.setStatus(project.get().getStatus());
             projectRes.setProject(singleProject);
             return projectRes;

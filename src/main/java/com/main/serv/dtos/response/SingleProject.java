@@ -14,9 +14,9 @@ public class SingleProject {
     private String owner;
     private int amountGoal;
     private int amountRaised;
-    private int donationEndDate;
+    private long donationEndDate;
     private int donationCount;
-    private int createdAt;
-    private int updatedAt;
+    private long createdAt;
+    private long updatedAt;
     private String status;
 }
