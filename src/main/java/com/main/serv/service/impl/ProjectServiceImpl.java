@@ -32,7 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
         if(projectRepository.existsByTitle(project.getTitle())) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "Title already taken");
         }
-        Project projectEntity = getProjectEntity(project);
+        Project projectEntity = getProjectEntityForCreateProject(project);
         projectRepository.save(projectEntity);
         int projectId = projectRepository.findByTitle(project.getTitle()).get().getId();
         ProjectAddResponse res = new ProjectAddResponse();
@@ -57,7 +57,7 @@ public class ProjectServiceImpl implements ProjectService {
         return projectListResponse;
     }
 
-    private static Project getProjectEntity(ProjectAddDto project) {
+    private static Project getProjectEntityForCreateProject(ProjectAddDto project) {
         Project projectEntity = new Project();
         projectEntity.setTitle(project.getTitle());
         projectEntity.setOwner(project.getOwner());
