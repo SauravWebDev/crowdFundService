@@ -53,16 +53,7 @@ public class ProjectController {
             return new ResponseEntity<>(res, e.getStatus());
         }
     }
-    @GetMapping(path = "/donation/{projectId}")
-    public ResponseEntity<SingleProjectResponse> getProjectDonation(@PathVariable int projectId) {
-        try {
-            return ResponseEntity.ok(projectService.getSingleProject(projectId));
-        }catch (ApiException e) {
-            SingleProjectResponse singleProjectResponse = new SingleProjectResponse();
-            singleProjectResponse.setErrorMsg(e.getMessage());
-            return new ResponseEntity<>(singleProjectResponse, e.getStatus());
-        }
-    }
+
     @GetMapping(path = "/{projectId}")
     public ResponseEntity<SingleProjectResponse> getSingleProject(@PathVariable int projectId) {
         try {
